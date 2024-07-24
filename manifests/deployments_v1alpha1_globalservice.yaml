@@ -1,0 +1,44 @@
+apiVersion: deployments.plural.sh/v1alpha1
+kind: Cluster
+metadata:
+  name: existing
+  namespace: default
+spec:
+  handle: lukasz
+---
+apiVersion: deployments.plural.sh/v1alpha1
+kind: GitRepository
+metadata:
+  name: guestbook
+  namespace: default
+spec:
+  url: https://github.com/argoproj/argocd-example-apps.git
+---
+---
+apiVersion: deployments.plural.sh/v1alpha1
+kind: ServiceDeployment
+metadata:
+  name: guestbook
+  namespace: default
+spec:
+  git:
+    folder: guestbook
+    ref: master
+  repositoryRef:
+    kind: GitRepository
+    name: guestbook
+    namespace: default
+  clusterRef:
+    kind: Cluster
+    name: existing
+    namespace: default
+---
+apiVersion: deployments.plural.sh/v1alpha1
+kind: GlobalService
+metadata:
+  name: globalservice-guestbook
+  namespace: default
+spec:
+  serviceRef:
+    name: guestbook
+    namespace: default
