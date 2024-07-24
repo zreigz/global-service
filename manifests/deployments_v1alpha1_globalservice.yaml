@@ -11,8 +11,6 @@ kind: GitRepository
 metadata:
   name: guestbook
   namespace: default
-  annotations:
-    config.kubernetes.io/depends-on: /namespaces/default/Cluster/existing
 spec:
   url: https://github.com/argoproj/argocd-example-apps.git
 ---
@@ -22,8 +20,6 @@ kind: ServiceDeployment
 metadata:
   name: guestbook
   namespace: default
-  annotations:
-    config.kubernetes.io/depends-on: /namespaces/default/GitRepository/guestbook
 spec:
   git:
     folder: guestbook
@@ -42,8 +38,6 @@ kind: GlobalService
 metadata:
   name: globalservice-guestbook
   namespace: default
-  annotations:
-    config.kubernetes.io/depends-on: /namespaces/default/ServiceDeployment/guestbook
 spec:
   serviceRef:
     name: guestbook
