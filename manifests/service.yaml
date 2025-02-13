@@ -1,0 +1,17 @@
+apiVersion: deployments.plural.sh/v1alpha1
+kind: ServiceDeployment
+metadata:
+  name: guestbook
+  namespace: default
+spec:
+  git:
+    folder: guestbook
+    ref: master
+  repositoryRef:
+    kind: GitRepository
+    name: guestbook
+    namespace: default
+  clusterRef:
+    kind: Cluster
+    name: existing
+    namespace: default
